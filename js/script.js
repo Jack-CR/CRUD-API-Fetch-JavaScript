@@ -3,7 +3,7 @@ let d = document;
 const $template = d.getElementById("charactersTemplate").content;
 $fragment = d.createDocumentFragment();
 const $tbody = d.querySelector("tbody");
-const $deleteButton=d.getElementById("delete")
+const $deleteCharacter = d.getElementById("deleteCharacter");
 
 let show = Boolean;
 
@@ -35,7 +35,7 @@ const addDOMCharacters = (show, json) => {
          $template.querySelector(".name").dataset.name = element.name;
          $template.querySelector(".race").dataset.race = element.race;
          $template.querySelector(".gender").dataset.gender = element.gender;
-         $template.querySelector("#delete").dataset.id=element.id;
+         $template.querySelector("#delete").dataset.id=element.id; 
 
          let $clone = d.importNode($template, true);
          $fragment.appendChild($clone);
@@ -53,28 +53,30 @@ const addDOMCharacters = (show, json) => {
    }
 }
 
-const deleteCharacter=async(e)=>{
+const deleteCharacter = async (e) => {
    try {
-      let options={
-         method:"DELETE",
-         headers:{
-            "Content-type":"application/json;charset=utf-8"
+      let options = {
+         method: "DELETE",
+         headers: {
+            "Content-type": "application/json;charset=utf-8"
          }
       }
 
-      res=await fetch(`http://localhost:5000/characters/${e.target.dataset.id}`,options),
-      json=await res.json();
+      res = await fetch(`http://localhost:5000/characters/${e.target.dataset.id}`, options),
+         json = await res.json();
 
       location.reload();
    } catch (error) {
-      
+
    }
 }
 
-d.addEventListener("click",e=>{
-   if(e.target.matches("#delete")){
-      let isDelete=confirm(`Eliminar el elemento ${e.target.dataset.id}`);
+ d.addEventListener("click", e => {
+   if (e.target.matches("#delete")) {
+      let isDelete=confirm(`Eliminar ${e.target.dataset.id}`)
 
-      if(isDelete) deleteCharacter(e)
-   }
-})
+      if(isDelete)deleteCharacter(e)
+      
+   } 
+}) 
+
