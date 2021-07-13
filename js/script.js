@@ -24,6 +24,7 @@ btnShowCharacters.addEventListener("click", async (e) => {
          show = false;
 
       } else {
+         /* REMOVE CHARCATERS FROM DOM */
          while ($tbody.firstChild) {
             $tbody.removeChild($tbody.firstChild);
          }
@@ -39,7 +40,7 @@ btnShowCharacters.addEventListener("click", async (e) => {
    }
 })
 
-
+/* ADD CHARACTER WHEN SHOW CHARACTERS IS PRESS */
 const addDOMCharacters = (show, json) => {
    if (show) {
       btnShowCharacters.textContent = "Hide Characters";
@@ -49,11 +50,20 @@ const addDOMCharacters = (show, json) => {
          $template.querySelector(".name").textContent = element.name;
          $template.querySelector(".race").textContent = element.race;
          $template.querySelector(".gender").textContent = element.gender;
+         $template.querySelector(".abilities").textContent = element.abilities;
+
 
          $template.querySelector(".name").dataset.name = element.name;
          $template.querySelector(".race").dataset.race = element.race;
          $template.querySelector(".gender").dataset.gender = element.gender;
          $template.querySelector("#delete").dataset.id = element.id;
+         $template.querySelector(".modal_update").dataset.id = element.id;
+
+         $template.querySelector(".update").dataset.name = element.name;
+         $template.querySelector(".update").dataset.race = element.race;
+         $template.querySelector(".update").dataset.gender = element.gender;
+         $template.querySelector(".update").dataset.id = element.id;
+
 
          let $clone = d.importNode($template, true);
          $fragment.appendChild($clone);
@@ -61,9 +71,10 @@ const addDOMCharacters = (show, json) => {
 
       $tbody.appendChild($fragment);
 
-   } 
+   }
 }
 
+/* ADD CHARACTER */
 const addCharacter = async (e) => {
    try {
       let options = {
@@ -79,12 +90,13 @@ const addCharacter = async (e) => {
       }
 
       let res = await fetch("http://localhost:5000/characters", options),
-         json = res.json();
+         json = await res.json();
    } catch (error) {
 
    }
 }
 
+/* DELETE CHARACTER */
 const deleteCharacter = async (e) => {
    try {
       let options = {
@@ -103,14 +115,47 @@ const deleteCharacter = async (e) => {
    }
 }
 
+
+/* UPDATE CHARACTER */
+const updateCharacter = async (e) => {
+   try {
+      let options = {
+         method: "PUT",
+         headers: {
+            "Content-type": "application/json;charset=utf-8"
+         },
+         body: JSON.stringify({
+            name: $inputName.value,
+            race: $inputRace.value,
+            gender: $inputGender.value
+         })
+      }
+
+      let res = await fetch(`http://localhost:5000/characters/${e.target.dataset.id}`, options),
+         json = await res.json();
+   } catch (error) {
+
+   }
+}
+
+
 d.addEventListener("click", e => {
+   /* DELETE CHARACTER EVENT */
    if (e.target.matches("#delete")) {
-      let isDelete = confirm(`Eliminar ${e.target.dataset.id}`)
+      let isDelete = confirm(`Delete ${e.target.dataset.id}`)
       if (isDelete) deleteCharacter(e);
 
+      /* ADD CHARACTER EVENT */
    } else if (e.target.matches("#saveCharacter")) {
-      console.log($inputName.value)
       addCharacter(e);
+
+      /* UPDATE MODAL EVENT*/
+   } else if (e.target.matches(".update")) {
+      const $modal_update = d.querySelector(".modal-update");
+      $modal_update.querySelector("#inputName").value = e.target.dataset.name;
+      $modal_update.querySelector("#inputRace").value = e.target.dataset.race;
+      $modal_update.querySelector("#inputGender").value = e.target.dataset.gender;
+      let $update = d.getElementById("update").addEventListener("click", (e) => {
+      })
    }
 })
-
