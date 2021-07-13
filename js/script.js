@@ -3,7 +3,12 @@ let d = document;
 const $template = d.getElementById("charactersTemplate").content;
 $fragment = d.createDocumentFragment();
 const $tbody = d.querySelector("tbody");
-const $deleteCharacter = d.getElementById("deleteCharacter");
+
+
+/* CHARACTERS INPUTS FORM ADD */
+const $inputName=d.getElementById("inputName");
+const $inputRace=d.getElementById("inputRace");
+const $inputGender=d.getElementById("inputGender");
 
 let show = Boolean;
 
@@ -35,7 +40,7 @@ const addDOMCharacters = (show, json) => {
          $template.querySelector(".name").dataset.name = element.name;
          $template.querySelector(".race").dataset.race = element.race;
          $template.querySelector(".gender").dataset.gender = element.gender;
-         $template.querySelector("#delete").dataset.id=element.id; 
+         $template.querySelector("#delete").dataset.id = element.id;
 
          let $clone = d.importNode($template, true);
          $fragment.appendChild($clone);
@@ -50,6 +55,27 @@ const addDOMCharacters = (show, json) => {
       btnShowCharacters.classList.remove("btn-danger");
       btnShowCharacters.classList.add("btn-primary");
       btnShowCharacters.textContent = "Show Characters";
+   }
+}
+
+const addCharacter = async (e) => {
+   try {
+      let options = {
+         method: "POST",
+         headers: {
+            "Content-type": "application/json;charset=utf-8"
+         },
+         body: JSON.stringify({
+            name:$inputName.value,
+            race:$inputRace.value,
+            gender:$inputGender.value
+         })
+      }
+
+      let res = await fetch("http://localhost:5000/characters", options),
+         json = res.json();
+   } catch (error) {
+
    }
 }
 
@@ -71,12 +97,14 @@ const deleteCharacter = async (e) => {
    }
 }
 
- d.addEventListener("click", e => {
+d.addEventListener("click", e => {
    if (e.target.matches("#delete")) {
-      let isDelete=confirm(`Eliminar ${e.target.dataset.id}`)
+      let isDelete = confirm(`Eliminar ${e.target.dataset.id}`)
+      if (isDelete) deleteCharacter(e);
 
-      if(isDelete)deleteCharacter(e)
-      
+   } else if (e.target.matches("#saveCharacter")){
+      console.log($inputName.value)
+      addCharacter(e);
    } 
-}) 
+})
 

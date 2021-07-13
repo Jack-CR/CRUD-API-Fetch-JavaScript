@@ -41,22 +41,35 @@
                                 <div class="container">
                                     <form>
                                         <fieldset class="form-group row">
-                                            <legend class="col-form-legend col-sm-1-12">Character Name</legend>
+                                            <legend class="col-form-legend col-sm-1-12">Character</legend>
                                         </fieldset>
                                         <div class="form-group row">
-                                            <label for="inputName" class="col-sm-1-12 col-form-label"></label>
+                                            <label for="inputName" class="col-sm-1-12 col-form-label" ></label>
                                             <div class="col-sm-1-12">
-                                                <input type="text" class="form-control" name="inputName" id="inputName"
+                                                <input type="text" class="form-control" name="name" id="inputName"
                                                     placeholder="Character Name" required>
                                             </div>
                                         </div>
-
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-1-12 col-form-label" ></label>
+                                            <div class="col-sm-1-12">
+                                                <input type="text" class="form-control" name="name" id="inputRace"
+                                                    placeholder="Character Race" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-1-12 col-form-label" ></label>
+                                            <div class="col-sm-1-12">
+                                                <input type="text" class="form-control" name="name" id="inputGender"
+                                                    placeholder="Character Gender" required>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-primary" id="saveCharacter">Save changes</button>
                             </div>
                         </div>
                     </div>
