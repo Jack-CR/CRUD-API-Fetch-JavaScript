@@ -4,26 +4,40 @@ const $template = d.getElementById("charactersTemplate").content;
 $fragment = d.createDocumentFragment();
 const $tbody = d.querySelector("tbody");
 
+/* show characters switch */
+let show = true;
 
 /* CHARACTERS INPUTS FORM ADD */
-const $inputName=d.getElementById("inputName");
-const $inputRace=d.getElementById("inputRace");
-const $inputGender=d.getElementById("inputGender");
+const $inputName = d.getElementById("inputName");
+const $inputRace = d.getElementById("inputRace");
+const $inputGender = d.getElementById("inputGender");
 
-let show = Boolean;
 
-btnShowCharacters.addEventListener("click", async (show) => {
+btnShowCharacters.addEventListener("click", async (e) => {
 
    try {
       let res = await fetch(`http://localhost:5000/characters`),
          json = await res.json();
 
-      addDOMCharacters(show, json);
+      if (show) {
+         addDOMCharacters(show, json);
+         show = false;
+      } else {
+         while ($tbody.firstChild) {
+            $tbody.removeChild($tbody.firstChild);
+         }
+         btnShowCharacters.classList.remove("btn-danger");
+         btnShowCharacters.classList.add("btn-primary");
+         btnShowCharacters.textContent = "Show Characters";
+         btnShowCharacters.dataset.show = "open";
 
+         show = true;
+      }
    } catch (error) {
       console.log(error)
    }
 })
+
 
 /* d.addEventListener("DOMContentLoaded",getAll) */
 
@@ -48,14 +62,15 @@ const addDOMCharacters = (show, json) => {
 
       $tbody.appendChild($fragment);
 
-   } else {
+   } /*e lse {
       while ($tbody.firstChild) {
          $tbody.removeChild($tbody.firstChild);
       }
       btnShowCharacters.classList.remove("btn-danger");
       btnShowCharacters.classList.add("btn-primary");
       btnShowCharacters.textContent = "Show Characters";
-   }
+
+   } */
 }
 
 const addCharacter = async (e) => {
@@ -66,9 +81,9 @@ const addCharacter = async (e) => {
             "Content-type": "application/json;charset=utf-8"
          },
          body: JSON.stringify({
-            name:$inputName.value,
-            race:$inputRace.value,
-            gender:$inputGender.value
+            name: $inputName.value,
+            race: $inputRace.value,
+            gender: $inputGender.value
          })
       }
 
@@ -102,9 +117,9 @@ d.addEventListener("click", e => {
       let isDelete = confirm(`Eliminar ${e.target.dataset.id}`)
       if (isDelete) deleteCharacter(e);
 
-   } else if (e.target.matches("#saveCharacter")){
+   } else if (e.target.matches("#saveCharacter")) {
       console.log($inputName.value)
       addCharacter(e);
-   } 
+   }
 })
 
