@@ -22,6 +22,7 @@ btnShowCharacters.addEventListener("click", async (e) => {
       if (show) {
          addDOMCharacters(show, json);
          show = false;
+
       } else {
          while ($tbody.firstChild) {
             $tbody.removeChild($tbody.firstChild);
@@ -38,8 +39,6 @@ btnShowCharacters.addEventListener("click", async (e) => {
    }
 })
 
-
-/* d.addEventListener("DOMContentLoaded",getAll) */
 
 const addDOMCharacters = (show, json) => {
    if (show) {
@@ -62,15 +61,7 @@ const addDOMCharacters = (show, json) => {
 
       $tbody.appendChild($fragment);
 
-   } /*e lse {
-      while ($tbody.firstChild) {
-         $tbody.removeChild($tbody.firstChild);
-      }
-      btnShowCharacters.classList.remove("btn-danger");
-      btnShowCharacters.classList.add("btn-primary");
-      btnShowCharacters.textContent = "Show Characters";
-
-   } */
+   } 
 }
 
 const addCharacter = async (e) => {
