@@ -117,7 +117,7 @@ const deleteCharacter = async (e) => {
 
 
 /* UPDATE CHARACTER */
-const updateCharacter = async (e) => {
+const updateCharacter = async (e, $modal_update) => {
    try {
       let options = {
          method: "PUT",
@@ -125,9 +125,9 @@ const updateCharacter = async (e) => {
             "Content-type": "application/json;charset=utf-8"
          },
          body: JSON.stringify({
-            name: $inputName.value,
-            race: $inputRace.value,
-            gender: $inputGender.value
+            name: $modal_update.querySelector("#inputName").value,
+            race: $modal_update.querySelector("#inputRace").value,
+            gender: $modal_update.querySelector("#inputGender").value
          })
       }
 
@@ -139,6 +139,7 @@ const updateCharacter = async (e) => {
 }
 
 
+/* CLICK EVENT CONTROL FOR (ADD,DELETE,UPDATE) */
 d.addEventListener("click", e => {
    /* DELETE CHARACTER EVENT */
    if (e.target.matches("#delete")) {
@@ -152,10 +153,17 @@ d.addEventListener("click", e => {
       /* UPDATE MODAL EVENT*/
    } else if (e.target.matches(".update")) {
       const $modal_update = d.querySelector(".modal-update");
+      const $id_update = d.querySelector("#update");
+
       $modal_update.querySelector("#inputName").value = e.target.dataset.name;
       $modal_update.querySelector("#inputRace").value = e.target.dataset.race;
       $modal_update.querySelector("#inputGender").value = e.target.dataset.gender;
-      let $update = d.getElementById("update").addEventListener("click", (e) => {
+      $id_update.dataset.id = e.target.dataset.id;
+
+      /* IF YOU PRESS UPDATE MODAL BUTTON  */
+      $id_update.addEventListener("click", async (e) => {
+
+         updateCharacter(e, $modal_update);
       })
    }
 })
